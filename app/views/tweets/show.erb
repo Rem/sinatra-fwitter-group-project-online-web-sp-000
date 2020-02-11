@@ -1,3 +1,4 @@
+
 <h1>Your tweet</h1>
 <br>
 <a href="/users/<%=current_user.username.downcase%>">Home<a>
@@ -5,10 +6,12 @@
 <br>
 
 <p><%=@tweet.content%></p>
+<%@tweet = Tweet.find_by_id(params[:id])%>
+<%if @tweet && @tweet.user == current_user%>
+  <form method="post" action="/tweets/<%=@tweet.id%>/delete">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete Tweet">
+  </form>
 
-<form method="post" action="/tweets/<%=@tweet.id%>/delete">
-  <input id="hidden" type="hidden" name="_method" value="delete">
-  <input type="submit" value="Delete Tweet">
-</form>
-
-<a href="/tweets/<%=@tweet.id%>/edit">Edit Tweet </a>
+  <a href="/tweets/<%=@tweet.id%>/edit">Edit Tweet </a>
+<%end%>
